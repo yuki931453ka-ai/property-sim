@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ミナールビル203区画 - 収益シミュレーション</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,sans-serif;background:#0f1923;color:#e0e6ed;padding:24px;max-width:900px;margin:0 auto}
+h1{font-size:1.2em;margin-bottom:4px}
+.sub{font-size:.85em;color:#8899aa;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.panel{background:#1a2634;border-radius:10px;padding:16px;border:1px solid #2a3a4a}
+.slider-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.85em}
+.slider-row label{min-width:70px;color:#8899aa}
+.slider-row input[type=range]{flex:1}
+.sval{min-width:55px;text-align:right;font-weight:600;color:#4fc3f7}
+table{width:100%;border-collapse:collapse;font-size:.85em}
+td{padding:6px 4px;border-bottom:1px solid #2a3a4a}
+.sep td{border-top:2px solid #4fc3f7}
+.sep2 td{border-top:2px solid #e67e22}
+.chart-wrap{max-width:300px;margin:16px auto}
+.score-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.score-circle{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1em;color:#fff}
+.score-S{background:#e74c3c}.score-A{background:#f39c12}.score-B{background:#f1c40f;color:#222}.score-C{background:#3498db}.score-D{background:#95a5a6}
+.score-details{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font-size:.8em;margin-bottom:12px}
+.si{display:flex;justify-content:space-between;padding:4px 6px;background:#0f1923;border-radius:4px}
+.cb-section{margin-bottom:8px;font-size:.82em;padding:8px;border-radius:6px}
+.cb-good{background:rgba(46,204,113,.08);border-left:3px solid #2ecc71}
+.cb-warn{background:rgba(231,76,60,.08);border-left:3px solid #e74c3c}
+.cb-check{background:rgba(79,195,247,.08);border-left:3px solid #4fc3f7}
+.cb-title{font-weight:700;margin-bottom:4px}
+details{margin-top:14px;font-size:.75em;color:#8899aa;cursor:pointer}
+summary{color:#4fc3f7;font-weight:bold;margin-bottom:8px}
+.radio-group{display:flex;gap:12px;flex-wrap:wrap;font-size:.8em;margin-top:8px}
+.radio-group label{cursor:pointer}
+.footer{margin-top:24px;font-size:.7em;color:#556;text-align:center}
+</style></head><body>
+<h1>ミナールビル203区画</h1>
+<div class="sub">神奈川県横浜市鶴見区豊岡町１８－１ | 31.6坪 | 家賃56.5万/月 | 都心繁華街</div>
+
+<div class="grid">
+<div class="panel">
+<h3 style="font-size:.95em;margin-bottom:12px;color:#4fc3f7">予測パラメータ</h3>
+<div class="slider-row"><label>稼働率</label><input type="range" id="s-occ" min="30" max="100" step="1" value="85" oninput="calc()"><span class="sval" id="v-occ">85%</span></div>
+<div class="slider-row"><label>日回転数</label><input type="range" id="s-turn" min="10" max="50" step="1" value="33" oninput="calc()"><span class="sval" id="v-turn">3.3回</span></div>
+<div class="slider-row"><label>客単価</label><input type="range" id="s-price" min="1500" max="3000" step="50" value="2000" oninput="calc()"><span class="sval" id="v-price">¥2,000</span></div>
+<div class="slider-row"><label>営業日数</label><input type="range" id="s-days" min="20" max="31" step="1" value="29" oninput="calc()"><span class="sval" id="v-days">29日</span></div>
+<hr style="border-color:#2a3a4a;margin:12px 0">
+<div class="radio-group">
+<div><span style="color:#8899aa">物件:</span>
+<label><input type="radio" name="pt" value="skeleton" checked onchange="calc()"> スケルトン</label>
+<label><input type="radio" name="pt" value="inuki"  onchange="calc()"> 居抜き</label></div>
+<div><span style="color:#8899aa">返済:</span>
+<label><input type="radio" name="ly" value="1" onchange="calc()"> 1年</label>
+<label><input type="radio" name="ly" value="3" checked onchange="calc()"> 3年</label>
+<label><input type="radio" name="ly" value="5" onchange="calc()"> 5年</label></div>
+</div>
+</div>
+<div class="panel">
+<div class="score-header">
+<div class="score-circle score-S">86</div>
+<div><div style="font-weight:700">Sランク物件</div><div style="font-size:.8em;color:#8899aa">100点満点中 86点</div></div>
+</div>
+<div class="score-details">
+<div class="si"><span>坪数</span><span style="color:#2ecc71">15/20</span></div><div class="si"><span>家賃</span><span style="color:#2ecc71">15/20</span></div><div class="si"><span>駅距離</span><span style="color:#2ecc71">15/15</span></div><div class="si"><span>階数</span><span style="color:#f39c12">6/10</span></div><div class="si"><span>エリア</span><span style="color:#2ecc71">15/15</span></div><div class="si"><span>収益性</span><span style="color:#2ecc71">20/20</span></div>
+</div>
+<div class="cb-section cb-good"><div class="cb-title">✓ 良い点</div><div>・駅徒歩1分は好立地。通勤帰りの集客に有利</div><div>・営業利益率21.3%は優良。安定した収益が見込める</div><div>・投資回収18ヶ月は短期回収で優秀</div><div>・都心繁華街エリア: 想定客単価¥2,000・稼働率85%</div></div>
+<div class="cb-section cb-warn"><div class="cb-title">⚠ 懸念点</div><div>・2Fは上階物件。エレベーター有無と看板設置を確認</div></div>
+<div class="cb-section cb-check"><div class="cb-title">🔍 要確認</div><div>・エレベーター・看板の設置可否</div><div>・スケルトン物件: 内装工事費用の見積もりを取得すること</div><div>・保証金・礼金・更新料の詳細</div></div>
+</div>
+</div>
+
+<div class="panel" style="margin-top:20px">
+<h3 style="font-size:.95em;margin-bottom:12px;color:#2ecc71">損益シミュレーション</h3>
+<table id="pnl"></table>
+<div class="chart-wrap"><canvas id="chart" height="200"></canvas></div>
+<details>
+<summary>算出根拠を表示</summary>
+<table style="font-size:.95em">
+<tr><td style="padding:4px 0;color:#8899aa">月商</td><td>席数 × 稼働率 × 日回転数 × 客単価 × 営業日数</td></tr>
+<tr><td style="padding:4px 0;color:#8899aa">席数</td><td>(坪数 − 固定面積) × 3席/坪 ※固定面積 = 4坪 + 坪数×16%</td></tr>
+<tr><td style="padding:4px 0;color:#8899aa">原価 (F)</td><td>月商 × 35%</td></tr>
+<tr><td style="padding:4px 0;color:#8899aa">人件費 (L)</td><td>固定80万円 + 月商×20%</td></tr>
+<tr><td style="padding:4px 0;color:#8899aa">水道光熱費</td><td>月商 × 3.5%</td></tr>
+<tr><td style="padding:4px 0;color:#8899aa">ロイヤリティ</td><td>月商 × 4% + システム料5万円/月</td></tr>
+<tr><td style="padding:4px 0;color:#8899aa">その他</td><td>月商 × 3.4%</td></tr>
+<tr><td style="padding:4px 0;color:#8899aa">初期投資</td><td>固定544万円 + スケルトン117万/坪 or 居抜き83万/坪</td></tr>
+</table>
+</details>
+</div>
+
+<div class="footer">新時代出店分析 - 株式会社Tsudo-i | 出力日: 2026/5/11</div>
+
+<script>
+const TSUBO=31.6;
+const RENT=56.5;
+let chart=null;
+function calc(){
+const fixed=4+0.16*TSUBO;
+const seats=Math.round((TSUBO-fixed)*3);
+const occ=parseInt(document.getElementById('s-occ').value);
+const turn=parseInt(document.getElementById('s-turn').value);
+const price=parseInt(document.getElementById('s-price').value);
+const days=parseInt(document.getElementById('s-days').value);
+document.getElementById('v-occ').textContent=occ+'%';
+document.getElementById('v-turn').textContent=(turn/10).toFixed(1)+'回';
+document.getElementById('v-price').textContent='¥'+price.toLocaleString();
+document.getElementById('v-days').textContent=days+'日';
+const rev=Math.round(seats*(occ/100)*(turn/10)*price*days/10000);
+const food=Math.round(rev*0.35);
+const labor=Math.round(80+rev*0.20);
+const rent=RENT;
+const util=Math.round(rev*0.035);
+const royal=Math.round(rev*0.04)+5;
+const other=Math.round(rev*0.034);
+const op=rev-(food+labor+rent+util+royal+other);
+const pr=rev>0?(op/rev*100).toFixed(1):'0';
+const pt=(document.querySelector('input[name=pt]:checked')||{}).value||'skeleton';
+const ly=parseInt((document.querySelector('input[name=ly]:checked')||{}).value||'3');
+const invest=544+(pt==='skeleton'?117:83)*TSUBO;
+const mLoan=Math.round(invest/(ly*12)*10)/10;
+const after=Math.round((op-mLoan)*10)/10;
+const payback=op>0?Math.round(invest/op*10)/10:999;
+const pc=op>0?'#2ecc71':'#e74c3c';
+const ac=after>0?'#2ecc71':'#e74c3c';
+document.getElementById('pnl').innerHTML=
+'<tr><td>客席面積</td><td>'+Math.round(TSUBO-fixed)+'坪（約'+seats+'席）</td></tr>'+
+'<tr class="sep"><td><strong>想定月商</strong></td><td><strong>'+rev.toLocaleString()+'万円</strong></td></tr>'+
+'<tr><td>原価 (F) 35%</td><td>'+food+'万 ('+(food/rev*100).toFixed(1)+'%)</td></tr>'+
+'<tr><td>人件費 (L)</td><td>'+labor+'万 ('+(labor/rev*100).toFixed(1)+'%)</td></tr>'+
+'<tr style="color:#8899aa"><td>FL合計</td><td>'+(food+labor)+'万 ('+((food+labor)/rev*100).toFixed(1)+'%)</td></tr>'+
+'<tr><td>家賃</td><td>'+rent+'万 ('+(rent/rev*100).toFixed(1)+'%)</td></tr>'+
+'<tr><td>水道光熱費 3.5%</td><td>'+util+'万</td></tr>'+
+'<tr><td>ロイヤリティ4%+システム</td><td>'+royal+'万</td></tr>'+
+'<tr><td>その他</td><td>'+other+'万</td></tr>'+
+'<tr class="sep"><td><strong>営業利益</strong></td><td><strong style="color:'+pc+'">'+op+'万 ('+pr+'%)</strong></td></tr>'+
+'<tr class="sep2"><td>初期投資</td><td>'+invest.toLocaleString()+'万 ('+(pt==='skeleton'?'スケルトン':'居抜き')+')</td></tr>'+
+'<tr><td>月額ローン返済</td><td>'+mLoan.toFixed(1)+'万/月 ('+ly+'年)</td></tr>'+
+'<tr><td><strong>返済後利益</strong></td><td><strong style="color:'+ac+'">'+after.toFixed(1)+'万/月</strong></td></tr>'+
+'<tr><td>投資回収</td><td>'+(payback<999?payback.toFixed(1)+'ヶ月':'−')+'</td></tr>';
+if(chart)chart.destroy();
+chart=new Chart(document.getElementById('chart'),{type:'doughnut',data:{labels:['原価','人件費','家賃','水道光熱','ロイヤリティ+Sys','その他','営業利益'],datasets:[{data:[food,labor,rent,util,royal,other,Math.max(0,op)],backgroundColor:['#e74c3c','#3498db','#e67e22','#1abc9c','#9b59b6','#95a5a6','#2ecc71']}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#eee',font:{size:10},padding:8}}}}});
+}
+calc();
+</script></body></html>

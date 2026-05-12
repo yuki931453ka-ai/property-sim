@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>物件シミュレーション | 株式会社Tsudo-i</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'Hiragino Sans',sans-serif;background:#0c1219;color:#e0e6ed;min-height:100vh}
+.header{padding:40px 24px 32px;max-width:720px;margin:0 auto}
+.header h1{font-size:1.4em;font-weight:700;letter-spacing:.02em}
+.header p{font-size:.82em;color:#6b7f8e;margin-top:6px}
+.list{max-width:720px;margin:0 auto;padding:0 24px 60px;display:flex;flex-direction:column;gap:14px}
+a.card{display:block;background:#151f2b;border:1px solid #1e2d3d;border-radius:12px;padding:20px 22px;text-decoration:none;color:inherit;transition:border-color .2s,transform .15s}
+a.card:hover{border-color:#4fc3f7;transform:translateY(-2px)}
+a.card:active{transform:translateY(0)}
+.card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.card-score{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95em;color:#fff;flex-shrink:0}
+.score-S{background:#e74c3c}.score-A{background:#f39c12}.score-B{background:#f1c40f;color:#222}.score-C{background:#3498db}.score-D{background:#95a5a6}
+.card-name{font-size:1.05em;font-weight:600}
+.card-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:.78em;color:#6b7f8e}
+.tag{background:#1a2634;border:1px solid #253545;border-radius:6px;padding:2px 8px}
+.empty{text-align:center;padding:80px 24px;color:#3a4f5f;font-size:.9em}
+.footer{text-align:center;padding:24px;font-size:.7em;color:#3a4f5f}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>物件シミュレーション</h1>
+  <p>収益シミュレーション一覧 - 株式会社Tsudo-i</p>
+</div>
+
+<div class="list" id="property-list"></div>
+<div class="footer">新時代出店分析 - 株式会社Tsudo-i</div>
+
+<script>
+const PROPERTIES = [
+  {
+    id: 'minaru-bldg-203',
+    name: 'ミナールビル203区画',
+    address: '横浜市鶴見区豊岡町18-1',
+    tsubo: '31.6坪',
+    rent: '56.5万/月',
+    area: '都心繁華街',
+    score: 86,
+    rank: 'S',
+  },
+];
+
+function renderList() {
+  const container = document.getElementById('property-list');
+  if (PROPERTIES.length === 0) {
+    container.innerHTML = '<div class="empty">登録済みの物件はありません</div>';
+    return;
+  }
+  container.innerHTML = PROPERTIES.map(p => `
+    <a class="card" href="properties/${p.id}/">
+      <div class="card-top">
+        <div class="card-score score-${p.rank}">${p.score}</div>
+        <div class="card-name">${p.name}</div>
+      </div>
+      <div class="card-meta">
+        <span class="tag">${p.address}</span>
+        <span class="tag">${p.tsubo}</span>
+        <span class="tag">家賃 ${p.rent}</span>
+        <span class="tag">${p.area}</span>
+        <span class="tag">${p.rank}ランク</span>
+      </div>
+    </a>
+  `).join('');
+}
+renderList();
+</script>
+</body>
+</html>
